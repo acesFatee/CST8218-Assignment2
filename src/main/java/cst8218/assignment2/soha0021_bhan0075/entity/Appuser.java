@@ -4,70 +4,34 @@
  */
 package cst8218.assignment2.soha0021_bhan0075.entity;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author harka
+ * @author bhand
  */
+
 @Entity
-@Table(name = "appuser")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Appuser.findAll", query = "SELECT a FROM Appuser a"),
-    @NamedQuery(name = "Appuser.findById", query = "SELECT a FROM Appuser a WHERE a.id = :id"),
-    @NamedQuery(name = "Appuser.findByUserid", query = "SELECT a FROM Appuser a WHERE a.userid = :userid"),
-    @NamedQuery(name = "Appuser.findByPassword", query = "SELECT a FROM Appuser a WHERE a.password = :password"),
-    @NamedQuery(name = "Appuser.findByGroupname", query = "SELECT a FROM Appuser a WHERE a.groupname = :groupname")})
 public class Appuser implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "userid")
+
     private String userid;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "password")
     private String password;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "groupname")
     private String groupname;
-
-    public Appuser() {
-    }
-
-    public Appuser(Long id) {
-        this.id = id;
-    }
-
-    public Appuser(Long id, String userid, String password, String groupname) {
-        this.id = id;
-        this.userid = userid;
-        this.password = password;
-        this.groupname = groupname;
-    }
 
     public Long getId() {
         return id;
@@ -86,11 +50,13 @@ public class Appuser implements Serializable {
     }
 
     public String getPassword() {
-        return password;
+        return "";
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (password != null && !password.isEmpty()) {
+            this.password = hashPassword(password);
+        }
     }
 
     public String getGroupname() {
@@ -101,24 +67,46 @@ public class Appuser implements Serializable {
         this.groupname = groupname;
     }
 
+    private String hashPassword(String password) {
+        try {
+            Pbkdf2PasswordHash passwordHash = CDI.current().select(Pbkdf2PasswordHash.class).get();
+            passwordHash.initialize(new HashMap<>()); 
+            return passwordHash.generate(password.toCharArray());
+        } catch (Exception e) {
+            Logger.getLogger(Appuser.class.getName()).log(Level.SEVERE, "Password hashing failed", e);
+            return null;
+        }
+    }
+
+    public boolean checkPassword(String enteredPassword) {
+        if (enteredPassword == null || this.password == null) {
+            return false;
+        }
+        try {
+            Pbkdf2PasswordHash passwordHash = CDI.current().select(Pbkdf2PasswordHash.class).get();
+            return passwordHash.verify(enteredPassword.toCharArray(), this.password);
+        } catch (Exception e) {
+            Logger.getLogger(Appuser.class.getName()).log(Level.SEVERE, "Password verification failed", e);
+            return false;
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
+        hash += (userid != null ? userid.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Appuser)) {
             return false;
         }
         Appuser other = (Appuser) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id))
+                && (this.userid != null || other.userid == null) && (this.userid == null || this.userid.equals(other.userid));
     }
 
     @Override

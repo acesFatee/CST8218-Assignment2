@@ -5,6 +5,7 @@
 package cst8218.assignment2.soha0021_bhan0075.service;
 
 import cst8218.assignment2.soha0021_bhan0075.entity.Bouncer;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 @Stateless
 @Path("bouncers")
+@RolesAllowed({"Admin", "RestUser"})
 public class BouncerFacadeREST extends AbstractFacade<Bouncer> {
 
     @PersistenceContext(unitName = "my_persistence_unit")

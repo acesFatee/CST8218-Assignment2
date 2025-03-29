@@ -75,14 +75,15 @@ public class BouncerFacadeREST extends AbstractFacade<Bouncer> {
 
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Bouncer find(@PathParam("id") Long id) {
+    @Produces({MediaType.APPLICATION_JSON})
+    public Bouncer find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
+
     @GET
     @Override
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Bouncer> findAll() {
         return super.findAll();
     }

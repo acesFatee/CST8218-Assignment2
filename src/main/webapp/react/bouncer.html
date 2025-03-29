@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>React Router Page</title>
+
+  <!-- React + ReactDOM -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+  <!-- React Router DOM v5 -->
+  <script src="https://unpkg.com/react-router-dom@5.3.0/umd/react-router-dom.min.js"></script>
+
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { HashRouter, Route, Switch, Link, useParams } = ReactRouterDOM;
+
+    const Home = () => {
+        const [bouncers, setBouncers] = React.useState([]);
+        
+        const fetchAllBouncers = async () => {
+            await fetch("http://localhost:8080/Assignment2/resources/bouncers", {
+            method: "GET",
+            credentials: "include",
+          })
+            .then(async (res) => await res.json())
+            .then((data) => setBouncers(data))
+            .catch((err) => console.error("Error fetching bouncers:", err));
+        }
+
+        React.useEffect(() => {
+          fetchAllBouncers();
+        }, []);
+        
+
+        return (
+          <div>
+            <h2>Bouncers</h2>
+            {
+              <table border="1" cellPadding="8" style={{ borderCollapse: "collapse" }}>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Current Travel</th>
+                    <th>Dir Change Count</th>
+                    <th>Max Travel</th>
+                    <th>Movement Direction</th>
+                    <th>Size</th>
+                    <th>X</th>
+                    <th>Y</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bouncers.map((bouncer) => (
+                    <tr key={bouncer.id}>
+                      <td>{bouncer.id}</td>
+                      <td>{bouncer.currentTravel}</td>
+                      <td>{bouncer.dirChangeCount}</td>
+                      <td>{bouncer.maxTravel}</td>
+                      <td>{bouncer.mvtDirection}</td>
+                      <td>{bouncer.size}</td>
+                      <td>{bouncer.x}</td>
+                      <td>{bouncer.y}</td>
+                      <td>
+                        <Link to={`/edit/${bouncer.id}`}>Edit</Link> | {" "}
+                        <Link to={`/canvas/${bouncer.id}`}>Canvas</Link>
+                      </td>    
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            }
+          </div>
+        );
+    };
+    
+    const Edit = () => {
+            const { id } = useParams();
+            const [bouncer, setBouncer] = React.useState(null);
+
+            const fetchBouncer = async () => {
+              try {
+                const res = await fetch(`http://localhost:8080/Assignment2/resources/bouncers/${id}`, {
+                  credentials: "include"
+                });
+
+                if (!res.ok) throw new Error("Failed to fetch bouncer");
+
+                const data = await res.json();
+                setBouncer(data);
+              } catch (err) {
+                console.error("Error fetching bouncer:", err);
+              }
+            };
+
+            React.useEffect(() => {
+              fetchBouncer();
+            }, [id]);
+
+            const handleChange = (e) => {
+                const { name, value } = e.target;
+
+                const numericFields = ["x", "y", "size", "maxTravel", "currentTravel", "mvtDirection", "dirChangeCount"];
+
+                setBouncer({
+                  ...bouncer,
+                  [name]: numericFields.includes(name)
+                    ? value === "" ? "" : parseInt(value, 10)
+                    : value,
+                });
+            };
+
+
+            const handleSubmit = async (e) => {
+              e.preventDefault();
+
+              try {
+                const res = await fetch(`http://localhost:8080/Assignment2/resources/bouncers/${id}`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  credentials: "include",
+                  body: JSON.stringify(bouncer)
+                });
+
+                if (res.ok) {
+                    console.log("Updated successfully")
+                } else {
+                  alert("Failed to update bouncer");
+                }
+              } catch (err) {
+                console.error("PUT error:", err);
+              }
+            };
+
+            if (!bouncer) return <div>Loading...</div>;
+
+            return (
+              <div>
+                <h2>Edit Bouncer ID: {id}</h2>
+                <form onSubmit={handleSubmit}>
+                  <label>
+                    X:
+                    <input type="number" name="x" value={bouncer.x} onChange={handleChange} />
+                  </label><br />
+
+                  <label>
+                    Y:
+                    <input type="number" name="y" value={bouncer.y} onChange={handleChange} />
+                  </label><br />
+
+                  <label>
+                    Size:
+                    <input type="number" name="size" value={bouncer.size} onChange={handleChange} />
+                  </label><br />
+
+                  <label>
+                    Max Travel:
+                    <input type="number" name="maxTravel" value={bouncer.maxTravel} onChange={handleChange} />
+                  </label><br />
+
+                  <label>
+                    Current Travel:
+                    <input type="number" name="currentTravel" value={bouncer.currentTravel} onChange={handleChange} />
+                  </label><br />
+
+                  <label>
+                    Direction:
+                    <input type="number" name="mvtDirection" value={bouncer.mvtDirection} onChange={handleChange} />
+                  </label><br />
+
+                  <label>
+                    Direction Change Count:
+                    <input type="number" name="dirChangeCount" value={bouncer.dirChangeCount} onChange={handleChange} />
+                  </label><br />
+                   <button><Link to = "/">Cancel</Link></button>
+                  <button type="submit">Save</button>
+                </form>
+              </div>
+            );
+          };
+    
+    const Canvas = () => {
+        const { id } = useParams();
+        const [bouncer, setBouncer] = React.useState(null);
+        
+        const fetchBouncer = async () => {
+              try {
+                const res = await fetch(`http://localhost:8080/Assignment2/resources/bouncers/${id}`, {
+                  credentials: "include"
+                });
+
+                if (!res.ok) throw new Error("Failed to fetch bouncer");
+
+                const data = await res.json();
+                setBouncer(data);
+              } catch (err) {
+                console.error("Error fetching bouncer:", err);
+              }
+          };
+          
+          const updateBouncer = async (updatedBouncer) => {
+            try {
+              const res = await fetch(`http://localhost:8080/Assignment2/resources/bouncers/${id}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify(updatedBouncer),
+              });
+
+              if (!res.ok) throw new Error("Failed to update bouncer");
+              console.log("Bouncer updated");
+            } catch (err) {
+              console.error("Error updating bouncer:", err);
+            }
+        };
+        
+        const TRAVEL_SPEED = 5;
+        const MAX_DIR_CHANGES = 10;
+        const DECREASE_RATE = 1;
+
+        const calculateNextMove = (bouncer) => {
+          if (!bouncer || bouncer.maxTravel <= 0) return bouncer;
+
+          let {
+            currentTravel,
+            maxTravel,
+            mvtDirection,
+            dirChangeCount
+          } = bouncer;
+
+          currentTravel += mvtDirection * TRAVEL_SPEED;
+
+          if (Math.abs(currentTravel) >= maxTravel) {
+            mvtDirection *= -1;
+            dirChangeCount += 1;
+
+            if (dirChangeCount >= MAX_DIR_CHANGES) {
+              maxTravel = Math.max(0, maxTravel - DECREASE_RATE);
+              dirChangeCount = 0;
+            }
+          }
+
+          return {
+            ...bouncer,
+            currentTravel,
+            maxTravel,
+            mvtDirection,
+            dirChangeCount
+          };
+        };
+
+          React.useEffect(() => {
+              if(!id){
+                  return;
+              }
+              fetchBouncer();
+          }, [])
+        
+           React.useEffect(() => {
+            if (!id) return;
+
+            const interval = setInterval(() => {
+              const next = calculateNextMove(bouncer);
+              updateBouncer(next); // sends to backend
+              fetchBouncer();      // gets updated values
+            }, 300);
+
+            return () => clearInterval(interval);
+          }, [bouncer, id]);
+
+        
+       return (
+            <div>
+              <h2>Canvas Component</h2>
+              {bouncer && (() => {
+                const { x, y, size, currentTravel, maxTravel } = bouncer;
+
+                // Compute canvas width so it fully contains movement range
+                const canvasWidth = 2 * maxTravel + size;
+                const canvasHeight = y + size;
+
+                // The left offset needed to align canvas so x is in the middle
+                const canvasLeftEdge = x - maxTravel;
+
+                // Actual position of the bouncer on the canvas
+                const ballLeft = x + currentTravel - canvasLeftEdge;
+
+                return (
+                  <div
+                    style={{
+                      position: "relative",
+                      width: `${canvasWidth}px`,
+                      height: `${canvasHeight}px`,
+                      border: "1px solid black",
+                      overflow: "hidden"
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        width: `${size}px`,
+                        height: `${size}px`,
+                        backgroundColor: "red",
+                        left: `${ballLeft}px`,
+                        top: `${y}px`,
+                        borderRadius: "50%",
+                        transition: "left 0.5s linear"
+                      }}
+                    ></div>
+                  </div>
+                );
+              })()}
+            </div>
+          );
+    };
+
+
+    function App() {
+        
+      return (
+        <HashRouter>
+          <div>
+            <h1>Welcome to React Page</h1>
+            <nav>
+                <Link to={`/`}>Home</Link> | {" "}
+              <a href = "/Assignment2/faces/index.xhtml">Back to index</a>
+            </nav>
+
+            <hr />
+
+            <Switch>
+            <Route path="/edit/:id" component={Edit} />
+              <Route path="/canvas/:id" component={Canvas} />
+              <Route path="/" exact component = {Home} />
+            </Switch>
+          </div>
+        </HashRouter>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</body>
+</html>

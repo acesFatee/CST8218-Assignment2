@@ -20,9 +20,9 @@ import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue
     )
 )
 @DatabaseIdentityStoreDefinition(
-    dataSourceLookup = "java:app/mariadb",
-    callerQuery = "SELECT password FROM appuser WHERE userid = ?",
-    groupsQuery = "SELECT groupname FROM appuser WHERE userid = ?",
+    dataSourceLookup = "jndi/mariadb",
+    callerQuery = "SELECT password FROM appuser WHERE BINARY userid = ?",
+    groupsQuery = "SELECT groupname FROM appuser WHERE BINARY userid = ?",
     hashAlgorithm = Pbkdf2PasswordHash.class,
     priority = 10
 )

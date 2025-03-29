@@ -3,22 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Home page</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body>
-        Hello from Facelets
-        <br />
+        <h2>Welcome #{request.userPrincipal.name}</h2>
         <h:link outcome="/appuser/List" value="Show All Appuser Items"/>
         <br />
         <h:link outcome="/bouncer/List" value="Show All Bouncer Items"/>
         <br />
-        <a href="/CST8218-Assignment2/react-bouncer.html">Show React page for bouncers</a>
-
+        <a href="/Assignment2/react/bouncer.html">Show React page for bouncers</a>
+        <br />
+        <a href="/Assignment2/resources/bouncers">Show API response for bouncers</a>
+        <br />
         <h:form>
-            <h:commandButton value="Logout" action="#{logoutBean.logout}" />
+            <h:commandButton value="Logout" action="#{authLogoutBean.logout}" />
         </h:form>
+        <br />
     </h:body>
-
-
 </html>

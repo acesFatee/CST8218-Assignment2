@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="6.0" 
-         xmlns="https://jakarta.ee/xml/ns/jakartaee" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<web-app version="6.0"
+         xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
 
+    <!-- JSF project stage -->
     <context-param>
         <param-name>jakarta.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
 
+    <!-- JSF servlet -->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
@@ -20,16 +22,17 @@
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
 
-    <!-- Session Config -->
+    <!-- Session timeout -->
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
 
-    <!-- Welcome Page -->
+    <!-- Welcome page -->
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
 
+    <!-- Index.xhtml accessible to all roles -->
     <security-constraint>
         <display-name>Index Page Access</display-name>
         <web-resource-collection>
@@ -39,14 +42,15 @@
         <auth-constraint>
             <role-name>Admin</role-name>
             <role-name>JsfUser</role-name>
-            <role-name>RestUser</role-name> 
+            <role-name>RestUser</role-name>
         </auth-constraint>
     </security-constraint>
 
+    <!-- AppUser pages for Admin only -->
     <security-constraint>
-        <display-name>AppUser Management (Admin Only)</display-name>
+        <display-name>AppUser Management</display-name>
         <web-resource-collection>
-            <web-resource-name>AppUser Pages</web-resource-name>
+            <web-resource-name>AppUser</web-resource-name>
             <url-pattern>/faces/appuser/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -54,23 +58,24 @@
         </auth-constraint>
     </security-constraint>
 
+    <!-- Bouncer pages for Admin and JsfUser -->
     <security-constraint>
-        <display-name>React Page Protection</display-name>
+        <display-name>Bouncer</display-name>
         <web-resource-collection>
-            <web-resource-name>React Page</web-resource-name>
-            <url-pattern>/react-bouncer.html</url-pattern>
+            <web-resource-name>Bouncer</web-resource-name>
+            <url-pattern>/faces/bouncer/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Admin</role-name>
-            <role-name>RestUser</role-name>
+            <role-name>JsfUser</role-name>
         </auth-constraint>
     </security-constraint>
 
-
+    <!-- React standalone HTML page -->
     <security-constraint>
-        <display-name>React App Protection</display-name>
+        <display-name>React Page</display-name>
         <web-resource-collection>
-            <web-resource-name>React Frontend</web-resource-name>
+            <web-resource-name>React HTML</web-resource-name>
             <url-pattern>/react/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -78,11 +83,13 @@
             <role-name>RestUser</role-name>
         </auth-constraint>
     </security-constraint>
-    
+
+
+    <!-- REST API access -->
     <security-constraint>
-        <display-name>REST API Protection</display-name>
+        <display-name>REST API</display-name>
         <web-resource-collection>
-            <web-resource-name>REST API</web-resource-name>
+            <web-resource-name>REST</web-resource-name>
             <url-pattern>/resources/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -91,6 +98,7 @@
         </auth-constraint>
     </security-constraint>
 
+    <!-- Roles -->
     <security-role>
         <role-name>Admin</role-name>
     </security-role>
@@ -101,6 +109,7 @@
         <role-name>RestUser</role-name>
     </security-role>
 
+    <!-- Form login config -->
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>Application Realm</realm-name>
@@ -109,7 +118,8 @@
             <form-error-page>/faces/login.xhtml</form-error-page>
         </form-login-config>
     </login-config>
-    
+
+    <!-- 403 error page -->
     <error-page>
         <error-code>403</error-code>
         <location>/faces/403.xhtml</location>

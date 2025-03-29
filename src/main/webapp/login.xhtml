@@ -1,39 +1,39 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html">
 
-<h:head>
-    <title>Login Page</title>
-    <!-- Optional: Include Tailwind CSS if not already part of your layout -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-</h:head>
+    <h:head>
+        <title>Login Page</title>
+        <!-- Optional: Include Tailwind CSS if not already part of your layout -->
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    </h:head>
 
-<h:body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <h:body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+            <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
 
-        <form method="post" action="j_security_check" class="space-y-4">
-            <div>
-                <label for="j_username" class="block text-sm font-medium text-gray-700">Username</label>
-                <input type="text" name="j_username" id="j_username" required ="true"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
-            </div>
+            <form method="post" action="j_security_check" class="space-y-4">
+                <div>
+                    <label for="j_username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" name="j_username" id="j_username" required ="true"
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
+                </div>
 
-            <div>
-                <label for="j_password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" name="j_password" id="j_password" required ="true"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
-            </div>
+                <div>
+                    <label for="j_password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" name="j_password" id="j_password" required ="true"
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
+                </div>
 
-            <div>
-                <input type="submit" value="Login"
-                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 cursor-pointer font-semibold" />
-            </div>
-        </form>
-    </div>
+                <div>
+                    <input type="submit" value="Login"
+                           class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 cursor-pointer font-semibold" />
+                </div>
+            </form>
+        </div>
 
-</h:body>
+    </h:body>
 </html>

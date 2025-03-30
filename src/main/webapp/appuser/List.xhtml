@@ -5,7 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:composition template="/template.xhtml">
+    <f:view locale="#{localeBean.locale}">
+        <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ListAppuserTitle}"></h:outputText>
         </ui:define>
@@ -64,5 +65,6 @@
             </h:form>
         </ui:define>
     </ui:composition>
+    </f:view>
 
 </html>

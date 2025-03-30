@@ -34,7 +34,6 @@
 
     <!-- Index.xhtml accessible to all roles -->
     <security-constraint>
-        <display-name>Index Page Access</display-name>
         <web-resource-collection>
             <web-resource-name>Index Page</web-resource-name>
             <url-pattern>/faces/index.xhtml</url-pattern>
@@ -43,8 +42,12 @@
             <role-name>Admin</role-name>
             <role-name>JsfUser</role-name>
             <role-name>RestUser</role-name>
+            <role-name>RandomUser</role-name>
+            <!-- You can even add a general role if you want -->
         </auth-constraint>
     </security-constraint>
+
+
 
     <!-- AppUser pages for Admin only -->
     <security-constraint>
@@ -84,20 +87,6 @@
         </auth-constraint>
     </security-constraint>
 
-
-    <!-- REST API access -->
-    <security-constraint>
-        <display-name>REST API</display-name>
-        <web-resource-collection>
-            <web-resource-name>REST</web-resource-name>
-            <url-pattern>/resources/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Admin</role-name>
-            <role-name>RestUser</role-name>
-        </auth-constraint>
-    </security-constraint>
-
     <!-- Roles -->
     <security-role>
         <role-name>Admin</role-name>
@@ -108,6 +97,10 @@
     <security-role>
         <role-name>RestUser</role-name>
     </security-role>
+    <security-role>
+        <role-name>RandomUser</role-name>
+    </security-role>
+
 
     <!-- Form login config -->
     <login-config>

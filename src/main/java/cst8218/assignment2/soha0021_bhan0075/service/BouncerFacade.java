@@ -19,7 +19,7 @@ import jakarta.transaction.Transactional;
 
 /**
  *
- * @author soha0021
+ * @author bhan
  */
 @Stateless
 public class BouncerFacade extends AbstractFacade<Bouncer> {

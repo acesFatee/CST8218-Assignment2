@@ -21,7 +21,7 @@ import java.util.Date;
 
 /**
  *
- * @author harka
+ * @author bhan
  */
 @Entity
 @Table(name = "bouncer")
@@ -67,93 +67,206 @@ public class Bouncer implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+    /**
+     * Default constructor for creating a new Bouncer instance.
+     */
     public Bouncer() {
     }
 
+    /**
+     * Constructs a new Bouncer instance with the given ID.
+     *
+     * @param id the unique identifier for this bouncer
+     */
     public Bouncer(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the ID of the bouncer.
+     *
+     * @return the ID of the bouncer
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets the ID of the bouncer.
+     *
+     * @param id the ID to set
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the x-coordinate of the bouncer.
+     *
+     * @return the x-coordinate
+     */
     public Integer getX() {
         return x;
     }
 
+    /**
+     * Sets the x-coordinate of the bouncer.
+     *
+     * @param x the x-coordinate to set
+     */
     public void setX(Integer x) {
         this.x = x;
     }
 
+    /**
+     * Gets the y-coordinate of the bouncer.
+     *
+     * @return the y-coordinate
+     */
     public Integer getY() {
         return y;
     }
 
+    /**
+     * Sets the y-coordinate of the bouncer.
+     *
+     * @param y the y-coordinate to set
+     */
     public void setY(Integer y) {
         this.y = y;
     }
 
+    /**
+     * Gets the size of the bouncer.
+     *
+     * @return the size of the bouncer
+     */
     public Integer getSize() {
         return size;
     }
 
+    /**
+     * Sets the size of the bouncer.
+     *
+     * @param size the size to set
+     */
     public void setSize(Integer size) {
         this.size = size;
     }
 
+    /**
+     * Gets the current travel distance of the bouncer.
+     *
+     * @return the current travel distance
+     */
     public Integer getCurrentTravel() {
         return currentTravel;
     }
 
+    /**
+     * Sets the current travel distance of the bouncer.
+     *
+     * @param currentTravel the current travel distance to set
+     */
     public void setCurrentTravel(Integer currentTravel) {
         this.currentTravel = currentTravel;
     }
 
+    /**
+     * Gets the maximum travel distance of the bouncer.
+     *
+     * @return the maximum travel distance
+     */
     public Integer getMaxTravel() {
         return maxTravel;
     }
 
+    /**
+     * Sets the maximum travel distance of the bouncer.
+     *
+     * @param maxTravel the maximum travel distance to set
+     */
     public void setMaxTravel(Integer maxTravel) {
         this.maxTravel = maxTravel;
     }
 
+    /**
+     * Gets the movement direction of the bouncer.
+     *
+     * @return the movement direction
+     */
     public Integer getMvtDirection() {
         return mvtDirection;
     }
 
+    /**
+     * Sets the movement direction of the bouncer.
+     *
+     * @param mvtDirection the movement direction to set
+     */
     public void setMvtDirection(Integer mvtDirection) {
         this.mvtDirection = mvtDirection;
     }
 
+    /**
+     * Gets the number of times the direction of the bouncer has changed.
+     *
+     * @return the direction change count
+     */
     public Integer getDirChangeCount() {
         return dirChangeCount;
     }
 
+    /**
+     * Sets the number of times the direction of the bouncer has changed.
+     *
+     * @param dirChangeCount the direction change count to set
+     */
     public void setDirChangeCount(Integer dirChangeCount) {
         this.dirChangeCount = dirChangeCount;
     }
 
+    /**
+     * Gets the creation timestamp of the bouncer.
+     *
+     * @return the creation timestamp
+     */
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    /**
+     * Sets the creation timestamp of the bouncer.
+     *
+     * @param createdAt the creation timestamp to set
+     */
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    /**
+     * Gets the last updated timestamp of the bouncer.
+     *
+     * @return the last updated timestamp
+     */
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
+    /**
+     * Sets the last updated timestamp of the bouncer.
+     *
+     * @param updatedAt the last updated timestamp to set
+     */
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
+    /**
+     * Computes the hash code for this bouncer object based on its ID.
+     *
+     * @return a hash code for this bouncer
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -161,22 +274,28 @@ public class Bouncer implements Serializable {
         return hash;
     }
 
+    /**
+     * Compares this bouncer to another object for equality based on ID.
+     *
+     * @param object the object to compare to
+     * @return {@code true} if this bouncer has the same ID as the other object, {@code false} otherwise
+     */
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Bouncer)) {
             return false;
         }
         Bouncer other = (Bouncer) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null && this.id.equals(other.id));
     }
 
+    /**
+     * Returns a string representation of this bouncer object.
+     *
+     * @return a string representation of this bouncer
+     */
     @Override
     public String toString() {
         return "cst8218.assignment2.soha0021_bhan0075.entity.Bouncer[ id=" + id + " ]";
     }
-    
 }

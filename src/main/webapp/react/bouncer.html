@@ -27,7 +27,7 @@
 
       const fetchAllBouncers = async () => {
         try {
-          const res = await fetch("http://localhost:8080/Assignment2/resources/bouncers", {
+          const res = await fetch("http://localhost:8080/CST8218-Assignment2/resources/bouncers", {
             method: "GET",
             credentials: "include",
           });
@@ -100,7 +100,7 @@
 
       const fetchBouncer = async () => {
         try {
-          const res = await fetch(`http://localhost:8080/Assignment2/resources/bouncers/${id}`, {
+          const res = await fetch(`http://localhost:8080/CST8218-Assignment2/resources/bouncers/${id}`, {
             credentials: "include",
           });
 
@@ -141,7 +141,7 @@
         e.preventDefault();
 
         try {
-          const res = await fetch(`http://localhost:8080/Assignment2/resources/bouncers/${id}`, {
+          const res = await fetch(`http://localhost:8080/CST8218-Assignment2/resources/bouncers/${id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -212,7 +212,7 @@
 
         const fetchBouncer = async () => {
           try {
-            const res = await fetch(`http://localhost:8080/Assignment2/resources/bouncers/${id}`, {
+            const res = await fetch(`http://localhost:8080/CST8218-Assignment2/resources/bouncers/${id}`, {
               credentials: "include"
             });
             if (!res.ok) throw new Error("Failed to fetch bouncer");
@@ -225,7 +225,7 @@
 
         const updateBouncer = async (updatedBouncer) => {
           try {
-            const res = await fetch(`http://localhost:8080/Assignment2/resources/bouncers/${id}`, {
+            const res = await fetch(`http://localhost:8080/CST8218-Assignment2/resources/bouncers/${id}`, {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json"
@@ -339,7 +339,7 @@
                     Home
                   </Link>
                   <a
-                    href="/Assignment2/faces/index.xhtml"
+                    href="/CST8218-Assignment2/faces/index.xhtml"
                     className="hover:underline"
                   >
                     Back to index
